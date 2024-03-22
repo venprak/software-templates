@@ -1,15 +1,15 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: springboot-template
-  title: Spring Boot gRPC Service
-  description: Create a simple microservice using gRPC and Spring Boot Java
+  name: eks-deploy-template
+  title: AWS EKS Deployment
+  description: Deploy a simple microservice using gRPC and Spring Boot Java
   tags:
     - recommended
     - java
-    - grpc
+    - AWS
 spec:
-  owner: service@example.com
+  owner: venprak@gmail.com
   type: service
 
   parameters:
@@ -17,17 +17,21 @@ spec:
       required:
         - component_id
         - owner
-        - java_package_name
+        - eks_cluster_name
       properties:
         component_id:
           title: Name
           type: string
           description: Unique name of the component
           ui:field: EntityNamePicker
-        java_package_name:
-          title: Java Package Name
+        eks_cluster_name:
+          title: EKS Cluster Name
           type: string
-          description: Name for the java package. eg (io.backstage.blah)
+          description: Name for the eks cluster name. 
+        app_image_name:
+          title: Application image Name
+          type: string
+          description: Name for the app image name.
         description:
           title: Description
           type: string
@@ -64,7 +68,8 @@ spec:
           component_id: ${{ parameters.component_id }}
           description: ${{ parameters.description }}
           artifact_id: ${{ parameters.component_id }}
-          java_package_name: ${{ parameters.java_package_name }}
+          eks_cluster_name: ${{ parameters.eks_cluster_name }}
+          app_image_name: ${{ parameters.app_image_name }}
           owner: ${{ parameters.owner }}
           destination: ${{ parameters.repoUrl | parseRepoUrl }}
           http_port: 8080
