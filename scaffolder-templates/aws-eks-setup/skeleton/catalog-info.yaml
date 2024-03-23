@@ -6,8 +6,7 @@ metadata:
   description: ${{values.description | dump}}
   {%- endif %}
   annotations:
-    github.com/project-slug: ${{values.destination.owner + "/" + values.destination.repo}}
-    backstage.io/techdocs-ref: dir:.
+    circleci.com/project-slug: github/${{values.destination.owner + "/" + values.destination.repo}}
 spec:
   type: service
   lifecycle: experimental
