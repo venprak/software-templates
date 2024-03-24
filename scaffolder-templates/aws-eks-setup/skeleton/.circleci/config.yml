@@ -16,11 +16,13 @@ jobs:
           kubectl-version: v1.22.0
       - aws-eks/update-kubeconfig-with-authenticator:
           cluster-name: << parameters.cluster-name >>
-          aws-region: us-east-1
+          aws-region: us-west-1
       - run:
           command: |
             kubectl get services
             kubectl create deployment springapplication --image=280214392207.dkr.ecr.us-east-1.amazonaws.com/springapplication:${{values.app_image_name}}-latest
+            kubectl expose deployment springapplication --type=LoadBalancer --name springserv --port=8000 --target-port=8080
+            kubectl get services
           name: Test cluster
 workflows:
   deployment:
